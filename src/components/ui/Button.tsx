@@ -20,7 +20,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 const getVariantClasses = (variant: ButtonVariant): string => {
   const variants = {
     solid:
-      'bg-accent text-text-neutral-dark-1 hover:bg-accent/50 focus:ring-accent/50 ',
+      'bg-accent text-text-neutral-dark-1 hover:bg-accent/90 focus:ring-accent/50 ',
     outline:
       'border border-stroke-neutral-1 bg-bg-neutral-light-1 hover:bg-accent/5 text-accent focus:ring-accent/50',
     ghost: 'text-accent hover:bg-accent/5 focus:ring-accent/50',
@@ -53,7 +53,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     ref
   ) => {
     const baseClasses =
-      'inline-flex text-sm font-medium items-center justify-center whitespace-nowrap rounded-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-70 disabled:cursor-none cursor-pointer transition-all duration-200';
+      'inline-flex text-sm font-medium items-center justify-center whitespace-nowrap rounded-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-70 disabled:cursor-none cursor-pointer transition-all duration-200 disabled:hover:none';
 
     const variantClasses = getVariantClasses(variant);
     const sizeClasses = getSizeClasses(size);
