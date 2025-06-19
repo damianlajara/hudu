@@ -3,7 +3,7 @@ import { type FormField as FormFieldType } from '@/types/wizard';
 import type { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Checkbox, Field, Label } from '@headlessui/react';
-import { CheckIcon } from '@heroicons/react/24/solid';
+import { CheckIcon, PlusIcon } from '@heroicons/react/24/solid';
 import { useEffect } from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 
@@ -132,6 +132,18 @@ export default function FormField({ field }: FormFieldProps) {
             </Label>
           </Field>
         )}
+
+      {field.allowAddMore && (
+        <div className="flex items-center justify-end gap-2">
+          <Button
+            variant="ghost"
+            onClick={() => {}}
+            leadingIcon={<PlusIcon className="h-4 w-4" />}
+          >
+            Add Another Condition
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

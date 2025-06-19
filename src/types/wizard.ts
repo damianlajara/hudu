@@ -24,6 +24,7 @@ export interface FormField {
   isRequired: boolean;
   allowSelectAll?: boolean;
   minSelections?: number;
+  allowAddMore?: boolean;
 }
 
 export interface SelectOption {

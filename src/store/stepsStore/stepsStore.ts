@@ -159,10 +159,11 @@ const createMockSteps = (): WizardStep[] => [
       {
         id: 'triggers',
         type: 'multi-select',
-        label: 'Select workflow triggers',
+        label: 'Configure workflow triggers',
         isRequired: true,
         allowSelectAll: false,
         minSelections: 1,
+        allowAddMore: true,
         options: [
           {
             id: 'recordCreated',
