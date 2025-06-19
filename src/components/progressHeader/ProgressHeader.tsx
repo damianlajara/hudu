@@ -48,7 +48,7 @@ export default function ProgressHeader() {
 
         return (
           <Fragment key={section.id}>
-            <div>
+            <div className="flex flex-col items-center">
               <Button
                 onClick={() => handleSectionClick(section.id)}
                 size="sm"
@@ -63,7 +63,7 @@ export default function ProgressHeader() {
               >
                 {isCompleted && <CheckIcon className="h-4 w-4" />}
               </Button>
-              <span className="text-center text-xs">{section.title}</span>
+              <span className="text-center text-xs/4">{section.title}</span>
             </div>
 
             {index < sections.length - 1 && (
