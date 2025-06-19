@@ -15,7 +15,6 @@ import {
   defaultMockSteps,
   mockRestoreFromSaved,
   mockRestoreNavigationState,
-  mockStoreHooks,
 } from '@/test/mockUtils';
 import { render, screen } from '@/test/testHelpers';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -66,18 +65,78 @@ describe('WizardDialog', () => {
   beforeEach(() => {
     vi.clearAllMocks();
 
-    vi.mocked(useFormData).mockReturnValue(mockStoreHooks.useFormData());
-    vi.mocked(useFormActions).mockReturnValue(mockStoreHooks.useFormActions());
+    vi.mocked(useFormData).mockReturnValue({
+      'step-1': { 'criteria-type': 'record' },
+      'step-2': { recordTypes: ['Password', 'Process'] },
+      'step-3': { triggers: ['Record Created', 'Record Updated'] },
+      'step-4': { actions: ['Flag Record', 'Send Email'] },
+    });
+    vi.mocked(useFormActions).mockReturnValue({
+      updateFormData: vi.fn(),
+      getFormData: vi.fn(),
+      getFieldValue: vi.fn(),
+      setFieldValue: vi.fn(),
+      markStepDirty: vi.fn(),
+      resetStepForm: vi.fn(),
+      resetAllForms: vi.fn(),
+      saveProgress: vi.fn(),
+      restoreProgress: vi.fn(),
+      getSavedProgress: vi.fn(),
+      restoreFromSaved: mockRestoreFromSaved,
+    });
     vi.mocked(useCurrentStepIndex).mockReturnValue(0);
     vi.mocked(useCurrentSectionId).mockReturnValue('section-1');
-    vi.mocked(useNavigationActions).mockReturnValue(
-      mockStoreHooks.useNavigationActions()
-    );
+    vi.mocked(useNavigationActions).mockReturnValue({
+      goNext: vi.fn(),
+      goBack: vi.fn(),
+      goToStep: vi.fn(),
+      goToSection: vi.fn(),
+      canNavigateToStep: vi.fn(),
+      setHasUnsavedChanges: vi.fn(),
+      setLastCompletedStepIndex: vi.fn(),
+      restoreNavigationState: mockRestoreNavigationState,
+      markStepCompleted: vi.fn(),
+      getLastCompletedStepIndex: vi.fn(),
+      isStepCompleted: vi.fn(),
+      clearVisitedSteps: vi.fn(),
+    });
     vi.mocked(useStepsStore).mockReturnValue({ steps: defaultMockSteps });
-    vi.mocked(useSections).mockReturnValue(mockStoreHooks.useSections());
-    vi.mocked(useStepsActions).mockReturnValue(
-      mockStoreHooks.useStepsActions()
-    );
+    vi.mocked(useSections).mockReturnValue([
+      {
+        id: 'section-1',
+        title: 'Setup',
+        stepIds: ['step-1', 'step-2'],
+        isCompleted: false,
+        isActive: true,
+      },
+      {
+        id: 'section-2',
+        title: 'Configuration',
+        stepIds: ['step-3'],
+        isCompleted: false,
+        isActive: false,
+      },
+      {
+        id: 'section-3',
+        title: 'Review',
+        stepIds: ['step-4'],
+        isCompleted: false,
+        isActive: false,
+      },
+    ]);
+    vi.mocked(useStepsActions).mockReturnValue({
+      getSectionById: vi.fn(),
+      markStepValid: vi.fn(),
+      resetSteps: vi.fn(),
+      updateFieldSelection: vi.fn(),
+      toggleSelectAll: vi.fn(),
+      getStepById: vi.fn(),
+      updateSectionState: vi.fn(),
+      getStepsForSection: vi.fn(),
+      setLoading: vi.fn(),
+      setSteps: vi.fn(),
+      setSections: vi.fn(),
+    });
     vi.mocked(FormProvider).mockImplementation(
       ({ children }: { children: React.ReactNode }) => <div>{children}</div>
     );

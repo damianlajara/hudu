@@ -9,11 +9,12 @@ import {
 import { useStepsStore } from '@/store/stepsStore/stepsStore';
 import {
   createMockFormContext,
+  defaultMockFormData,
   defaultMockSteps,
+  mockCanNavigateToStep,
   mockGoBack,
   mockGoNext,
   mockSaveProgress,
-  mockStoreHooks,
   mockTrigger,
   mockUpdateFormData,
 } from '@/test/mockUtils';
@@ -33,17 +34,45 @@ describe('NavigationControls', () => {
   beforeEach(() => {
     vi.clearAllMocks();
 
-    vi.mocked(useFormData).mockReturnValue(mockStoreHooks.useFormData());
-    vi.mocked(useFormActions).mockReturnValue(mockStoreHooks.useFormActions());
+    vi.mocked(useFormData).mockReturnValue(defaultMockFormData);
+    vi.mocked(useFormActions).mockReturnValue({
+      updateFormData: mockUpdateFormData,
+      getFormData: vi.fn(),
+      getFieldValue: vi.fn(),
+      setFieldValue: vi.fn(),
+      markStepDirty: vi.fn(),
+      resetStepForm: vi.fn(),
+      resetAllForms: vi.fn(),
+      saveProgress: mockSaveProgress,
+      restoreProgress: vi.fn(),
+      getSavedProgress: vi.fn(),
+      restoreFromSaved: vi.fn(),
+    });
     vi.mocked(useCurrentStepIndex).mockReturnValue(0);
     vi.mocked(useCurrentSectionId).mockReturnValue('section-1');
     vi.mocked(useStepsStore).mockReturnValue({ steps: defaultMockSteps });
-    vi.mocked(useNavigationState).mockReturnValue(
-      mockStoreHooks.useNavigationState()
-    );
-    vi.mocked(useNavigationActions).mockReturnValue(
-      mockStoreHooks.useNavigationActions()
-    );
+    vi.mocked(useNavigationState).mockReturnValue({
+      canGoNext: true,
+      canGoBack: false,
+      isFirstStep: true,
+      isLastStep: false,
+      canNavigateToStep: mockCanNavigateToStep,
+      lastCompletedStepIndex: -1,
+    });
+    vi.mocked(useNavigationActions).mockReturnValue({
+      goNext: mockGoNext,
+      goBack: mockGoBack,
+      goToStep: vi.fn(),
+      goToSection: vi.fn(),
+      canNavigateToStep: mockCanNavigateToStep,
+      setHasUnsavedChanges: vi.fn(),
+      setLastCompletedStepIndex: vi.fn(),
+      restoreNavigationState: vi.fn(),
+      markStepCompleted: vi.fn(),
+      getLastCompletedStepIndex: vi.fn(),
+      isStepCompleted: vi.fn(),
+      clearVisitedSteps: vi.fn(),
+    });
     vi.mocked(useFormContext).mockReturnValue(createMockFormContext());
     vi.mocked(FormProvider).mockImplementation(
       ({ children }: { children: React.ReactNode }) =>

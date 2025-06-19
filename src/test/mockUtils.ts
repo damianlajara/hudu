@@ -1,10 +1,6 @@
-import type { WizardFormData, WizardSection, WizardStep } from '@/types/wizard';
+import type { WizardSection, WizardStep } from '@/types/wizard';
 import type { FieldValues, UseFormReturn } from 'react-hook-form';
 import { vi } from 'vitest';
-
-import type { FormActions } from '@/store/formStore/formStore.types';
-import type { NavigationActions } from '@/store/navigationStore/navigationStore.types';
-import type { StepsActions } from '@/store/stepsStore/stepsStore.types';
 
 export const defaultMockSteps: WizardStep[] = [
   {
@@ -272,75 +268,3 @@ export function createMockFormContext(): UseFormReturn<FieldValues> {
     subscribe: vi.fn(),
   };
 }
-
-export const mockStoreHooks = {
-  useFormData: vi.fn((): WizardFormData => defaultMockFormData),
-  useCurrentStepIndex: vi.fn(
-    (): number => defaultMockNavigationState.currentStepIndex
-  ),
-  useCurrentSectionId: vi.fn(
-    (): string => defaultMockNavigationState.currentSectionId
-  ),
-  useStepsStore: vi.fn((): { steps: WizardStep[] } => ({
-    steps: defaultMockSteps,
-  })),
-  useSections: vi.fn((): WizardSection[] => defaultMockSections),
-  useNavigationState: vi.fn(() => ({
-    canGoNext: true,
-    canGoBack: false,
-    isFirstStep: true,
-    isLastStep: false,
-    canNavigateToStep: mockCanNavigateToStep,
-    lastCompletedStepIndex: -1,
-  })),
-  useProgressState: vi.fn(() => defaultMockProgressState),
-  useFormActions: vi.fn(
-    (): FormActions => ({
-      updateFormData: mockUpdateFormData,
-      getFormData: mockGetFormData,
-      getFieldValue: mockGetFieldValue,
-      setFieldValue: mockSetFieldValue,
-      markStepDirty: mockMarkStepDirty,
-      resetStepForm: mockResetStepForm,
-      resetAllForms: mockResetAllForms,
-      saveProgress: mockSaveProgress,
-      restoreProgress: mockRestoreProgress,
-      getSavedProgress: mockGetSavedProgress,
-      restoreFromSaved: mockRestoreFromSaved,
-    })
-  ),
-  useNavigationActions: vi.fn(
-    (): NavigationActions => ({
-      goNext: mockGoNext,
-      goBack: mockGoBack,
-      goToStep: mockGoToStep,
-      goToSection: mockGoToSection,
-      canNavigateToStep: mockCanNavigateToStep,
-      setHasUnsavedChanges: mockSetHasUnsavedChanges,
-      setLastCompletedStepIndex: mockSetLastCompletedStepIndex,
-      restoreNavigationState: mockRestoreNavigationState,
-      markStepCompleted: mockMarkStepCompleted,
-      getLastCompletedStepIndex: mockGetLastCompletedStepIndex,
-      isStepCompleted: mockIsStepCompleted,
-      clearVisitedSteps: mockClearVisitedSteps,
-    })
-  ),
-  useStepsActions: vi.fn(
-    (): StepsActions => ({
-      getSectionById: mockGetSectionById,
-      markStepValid: mockMarkStepValid,
-      resetSteps: mockResetSteps,
-      updateFieldSelection: mockUpdateFieldSelection,
-      toggleSelectAll: mockToggleSelectAll,
-      getStepById: mockGetStepById,
-      updateSectionState: mockUpdateSectionState,
-      getStepsForSection: mockGetStepsForSection,
-      setLoading: mockSetLoading,
-      setSteps: mockSetSteps,
-      setSections: mockSetSections,
-    })
-  ),
-  useFormContext: vi.fn(
-    (): UseFormReturn<FieldValues> => createMockFormContext()
-  ),
-};

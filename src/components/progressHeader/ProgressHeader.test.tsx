@@ -10,12 +10,14 @@ import {
   useStepsActions,
 } from '@/store/stepsStore/stepsStore';
 import {
+  defaultMockProgressState,
   defaultMockSections,
   defaultMockSteps,
   mockCanNavigateToStep,
   mockGetSectionById,
+  mockGoBack,
+  mockGoNext,
   mockGoToSection,
-  mockStoreHooks,
 } from '@/test/mockUtils';
 import { render, screen, userEvent } from '@/test/testHelpers';
 import type { WizardSection } from '@/types/wizard';
@@ -36,18 +38,37 @@ describe('ProgressHeader', () => {
       defaultMockSections.find((s) => s.id === sectionId)
     );
 
-    vi.mocked(useProgressState).mockReturnValue(
-      mockStoreHooks.useProgressState()
-    );
+    vi.mocked(useProgressState).mockReturnValue(defaultMockProgressState);
     vi.mocked(useCurrentSectionId).mockReturnValue('section-1');
-    vi.mocked(useNavigationActions).mockReturnValue(
-      mockStoreHooks.useNavigationActions()
-    );
+    vi.mocked(useNavigationActions).mockReturnValue({
+      goNext: mockGoNext,
+      goBack: mockGoBack,
+      goToStep: vi.fn(),
+      goToSection: mockGoToSection,
+      canNavigateToStep: mockCanNavigateToStep,
+      setHasUnsavedChanges: vi.fn(),
+      setLastCompletedStepIndex: vi.fn(),
+      restoreNavigationState: vi.fn(),
+      markStepCompleted: vi.fn(),
+      getLastCompletedStepIndex: vi.fn(),
+      isStepCompleted: vi.fn(),
+      clearVisitedSteps: vi.fn(),
+    });
     vi.mocked(useSections).mockReturnValue(defaultMockSections);
     vi.mocked(useSteps).mockReturnValue(defaultMockSteps);
-    vi.mocked(useStepsActions).mockReturnValue(
-      mockStoreHooks.useStepsActions()
-    );
+    vi.mocked(useStepsActions).mockReturnValue({
+      getSectionById: mockGetSectionById,
+      markStepValid: vi.fn(),
+      resetSteps: vi.fn(),
+      updateFieldSelection: vi.fn(),
+      toggleSelectAll: vi.fn(),
+      getStepById: vi.fn(),
+      updateSectionState: vi.fn(),
+      getStepsForSection: vi.fn(),
+      setLoading: vi.fn(),
+      setSteps: vi.fn(),
+      setSections: vi.fn(),
+    });
   });
 
   it('renders all sections', () => {
