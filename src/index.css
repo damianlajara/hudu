@@ -1,0 +1,46 @@
+@import 'tailwindcss';
+@plugin "@tailwindcss/forms";
+
+/* Note: --color-mint-500 => bg-mint-500, text-mint-500 */
+:root {
+  @theme {
+    --color-alert-success: #0e700e;
+    --color-accent-selected: #deeaf8;
+    --color-accent: #1849a9;
+    --color-bg-neutral-light-1: #ffffff;
+    --color-bg-neutral-light-2: #fafafa;
+    --color-bg-neutral-light-disabled: #f0f0f0;
+    --color-link-light: #2f6de9;
+    --color-stroke-neutral-1: #d1d1d1;
+    --color-stroke-neutral-2: #e0e0e0;
+    --color-text-neutral-dark-1: #ffffff;
+    --color-text-neutral-light-1: #242424;
+    --color-text-neutral-light-2: #424242;
+  }
+  font-family: Roboto, system-ui, Arial;
+  line-height: 1.2;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: var(--color-text-neutral-light-1);
+  background-color: var(--color-bg-neutral-light-1);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+}
+
+@media (prefers-color-scheme: dark) {
+}
