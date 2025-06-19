@@ -135,7 +135,7 @@ export default function NavigationControls({
         {isLastStep ? (
           <Button
             onClick={handleSaveDraft}
-            disabled={!canGoNext || isValidating}
+            disabled={isValidating}
             data-testid="nav-save-draft"
           >
             {isValidating ? 'Saving...' : 'Save Draft'}
