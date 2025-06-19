@@ -1,4 +1,4 @@
-import type { WizardFormData } from '@/types/wizard';
+import type { WizardFormData, WizardStep } from '@/types/wizard';
 
 export interface ReviewSummaryData {
   criteriaType: string | null;
@@ -41,20 +41,73 @@ export function formatArrayForDisplay(
   return null;
 }
 
+function mapValuesToLabels(
+  values: string[] | string | null,
+  steps: WizardStep[],
+  stepId: string,
+  fieldId: string
+): string[] | string | null {
+  if (!values) return null;
+
+  const step = steps.find((s) => s.id === stepId);
+  const field = step?.fields.find((f) => f.id === fieldId);
+
+  if (!field?.options) return values;
+
+  const valueArray = Array.isArray(values) ? values : [values];
+  const labels = valueArray.map((value) => {
+    const option = field.options.find((opt) => opt.value === value);
+    return option?.label || value;
+  });
+
+  return Array.isArray(values) ? labels : labels[0];
+}
+
 export function extractReviewSummaryData(
-  formData: WizardFormData
+  formData: WizardFormData,
+  steps: WizardStep[]
 ): ReviewSummaryData {
   const criteriaType =
     (formData['step-1']?.['criteria-type'] as string) || null;
-  const recordTypes = (formData['step-2']?.['recordTypes'] as string[]) || null;
-  const rawTriggers = (formData['step-3']?.['triggers'] as string[]) || null;
-  const actions = (formData['step-4']?.['actions'] as string[]) || null;
+  const recordTypesValues =
+    (formData['step-2']?.['recordTypes'] as string[]) || null;
+  const rawTriggersValues =
+    (formData['step-3']?.['triggers'] as string[]) || null;
+  const actionsValues = (formData['step-4']?.['actions'] as string[]) || null;
 
-  const triggers = stripCriteriaPrefix(rawTriggers, criteriaType);
-  const hasData = Boolean(criteriaType || recordTypes || triggers || actions);
+  // Get the labels we hardcoded in our mockdata instead of values so that the text can be more readable
+  const criteriaTypeLabel = mapValuesToLabels(
+    criteriaType,
+    steps,
+    'step-1',
+    'criteria-type'
+  ) as string;
+  const recordTypes = mapValuesToLabels(
+    recordTypesValues,
+    steps,
+    'step-2',
+    'recordTypes'
+  ) as string[];
+  const rawTriggers = mapValuesToLabels(
+    rawTriggersValues,
+    steps,
+    'step-3',
+    'triggers'
+  ) as string[];
+  const actions = mapValuesToLabels(
+    actionsValues,
+    steps,
+    'step-4',
+    'actions'
+  ) as string[];
+
+  const triggers = stripCriteriaPrefix(rawTriggers, criteriaTypeLabel);
+  const hasData = Boolean(
+    criteriaTypeLabel || recordTypes || triggers || actions
+  );
 
   return {
-    criteriaType,
+    criteriaType: criteriaTypeLabel,
     recordTypes,
     triggers,
     actions,

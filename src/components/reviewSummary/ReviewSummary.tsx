@@ -1,4 +1,5 @@
 import { useFormData } from '@/store/formStore/formStore';
+import { useSteps } from '@/store/stepsStore/stepsStore';
 import {
   extractReviewSummaryData,
   generateSummaryText,
@@ -6,8 +7,9 @@ import {
 
 export default function ReviewSummary() {
   const formData = useFormData();
+  const steps = useSteps();
 
-  const summaryData = extractReviewSummaryData(formData);
+  const summaryData = extractReviewSummaryData(formData, steps);
   const { criteriaText, triggersText, actionsText } =
     generateSummaryText(summaryData);
 
