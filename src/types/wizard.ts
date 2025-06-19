@@ -31,6 +31,7 @@ export interface SelectOption {
   label: string;
   value: string;
   isSelected: boolean;
+  icon?: string;
 }
 
 export type FieldValue = string | string[];

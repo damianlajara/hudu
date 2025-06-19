@@ -1,5 +1,7 @@
 import Button from '@/components/ui/Button';
 import { type FormField as FormFieldType } from '@/types/wizard';
+import type { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Checkbox, Field, Label } from '@headlessui/react';
 import { CheckIcon } from '@heroicons/react/24/solid';
 import { useEffect } from 'react';
@@ -85,6 +87,14 @@ export default function FormField({ field }: FormFieldProps) {
                 full
                 variant="outline"
                 key={option.id}
+                leadingIcon={
+                  option?.icon && (
+                    <FontAwesomeIcon
+                      className={`h-4 w-4 ${isSelected ? 'opacity-100' : 'opacity-60'}`}
+                      icon={['fas', option.icon] as IconProp}
+                    />
+                  )
+                }
                 onClick={() => handleOptionToggle(option.value)}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' || e.key === ' ') {

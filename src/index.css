@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @plugin "@tailwindcss/forms";
+@import '@fortawesome/fontawesome-free/css/all.css';
 
 /* Note: --color-mint-500 => bg-mint-500, text-mint-500 */
 :root {
