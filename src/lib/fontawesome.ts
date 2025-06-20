@@ -7,10 +7,15 @@ import {
   faCalendarTimes,
   faCog,
   faDesktop,
+  faEdit,
+  faEnvelope,
+  faExternalLinkAlt,
   faFile,
+  faFlag,
   faGlobe,
   faKey,
   faPlug,
+  faPlus,
   faServer,
   faUser,
   faUsers,
@@ -34,5 +39,10 @@ library.add(
   faServer,
   faDesktop,
   faArchive,
-  faBook
+  faBook,
+  faPlus,
+  faEdit,
+  faFlag,
+  faEnvelope,
+  faExternalLinkAlt
 );
